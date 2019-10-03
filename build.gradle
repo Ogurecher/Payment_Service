@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+buildscript {
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.8.RELEASE")
+    }
+}
+apply plugin: 'spring-boot'
+
+group 'microservices'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
