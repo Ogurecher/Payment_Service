@@ -8,6 +8,12 @@ public class Payment {
     private CardAuthorizationInfo cardAuthorizationInfo;
     private String username;
 
+    public Payment(long orderId, CardAuthorizationInfo cardAuthorizationInfo, String username) {
+        this.orderId = orderId;
+        this.cardAuthorizationInfo = cardAuthorizationInfo;
+        this.username = username;
+    }
+
     public long getId() {
         return id;
     }

@@ -1,3 +1,4 @@
+import dao.PaymentDAO;
 import dto.OrderDTO;
 import dto.UserDetailsDTO;
 import entity.enums.CardAuthorizationInfo;
@@ -13,5 +14,7 @@ public class Main {
         OrderDTO placeholderOrderDTO = paymentService.performPayment(placeholderId, placeholderUserDetails);
         System.out.println(placeholderOrderDTO.getStatus());
         System.out.println(placeholderOrderDTO.getId());
+        PaymentDAO paymentDAO = new PaymentDAO();
+        paymentDAO.getPaymentList();
     }
 }

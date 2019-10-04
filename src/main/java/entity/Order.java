@@ -2,15 +2,24 @@ package entity;
 
 import entity.enums.Status;
 
-public class Order {
-    private long id;
-    private String username;
-    private Status status;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Function;
 
-    public Order(long id, String username) {
-        this.id = id;
+public class Order implements Serializable {
+
+    private long id;
+    private Status status;
+    private String username;
+    private Set<OrderItem> orderItems = new HashSet<OrderItem>();
+
+    public Order() {}
+
+    public Order(String username) {
         this.username = username;
         this.status = Status.COLLECTING;
+        this.orderItems = new HashSet<OrderItem>();
     }
 
     public long getId() {
@@ -21,6 +30,14 @@ public class Order {
         this.id = id;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -29,11 +46,11 @@ public class Order {
         this.username = username;
     }
 
-    public Status getStatus() {
-        return status;
+    public Set<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }
