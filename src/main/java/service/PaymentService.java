@@ -14,6 +14,7 @@ public class PaymentService {
     private ItemService itemService = new ItemService();
 
     public OrderDTO performPayment(long orderId, UserDetailsDTO userDetails) {
+        userDetails.getCardAuthorizationInfo();
         System.out.println("Payment Service: performPayment initiated");
 
         // Order order = request -> OrderService: getOrderById(orderId)

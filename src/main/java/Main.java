@@ -1,20 +1,22 @@
-import dao.PaymentDAO;
-import dto.OrderDTO;
+import static spark.Spark.*;
+
+import com.google.gson.Gson;
 import dto.UserDetailsDTO;
-import entity.enums.CardAuthorizationInfo;
 import service.PaymentService;
 
 public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello world");
+    private static PaymentService paymentService = new PaymentService();
 
-        long placeholderId = 1;
-        UserDetailsDTO placeholderUserDetails = new UserDetailsDTO("placeholder_username", CardAuthorizationInfo.AUTHORIZED);
-        PaymentService paymentService = new PaymentService();
-        OrderDTO placeholderOrderDTO = paymentService.performPayment(placeholderId, placeholderUserDetails);
-        System.out.println(placeholderOrderDTO.getStatus());
-        System.out.println(placeholderOrderDTO.getId());
-        PaymentDAO paymentDAO = new PaymentDAO();
-        paymentDAO.getPaymentList();
+    public static void main(String[] args) {
+        port(1810);
+
+        exception(Exception.class, (exception, request, response) -> exception.printStackTrace());
+
+        put("/api/orders/:orderId/payment", (req, res) ->
+                paymentService.performPayment(
+                        Long.parseLong(req.params("orderId")),
+                        new Gson().fromJson(req.body(), UserDetailsDTO.class)
+                )
+        );
     }
 }
