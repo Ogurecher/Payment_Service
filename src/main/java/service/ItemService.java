@@ -1,16 +1,16 @@
 package service;
 
-import entity.OrderItem;
+import dto.ItemDTO;
 
-import java.util.Set;
+import java.util.List;
 
 
 public class ItemService {
-    public void releaseItems(Set<OrderItem> items) {
+    public void releaseItems(List<ItemDTO> items) {
         System.out.printf("Item Service: released items\n");
     }
 
-    public void changeItemAmount(Set<OrderItem> items) {
+    public void changeItemAmount(List<ItemDTO> items) {
         System.out.printf("Item Service: removed items\n");
     }
 }

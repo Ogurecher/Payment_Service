@@ -1,7 +1,5 @@
 package dao;
 
-import dto.OrderDTO;
-import entity.Order;
 import entity.Payment;
 import util.HibernateUtil;
 import org.hibernate.Session;

@@ -1,11 +1,11 @@
 package service;
 
-import entity.Order;
+import dto.OrderDTO;
 import entity.enums.Status;
 
 public class OrderService {
-    public Order getOrderById(long id) {
-        return new Order("user");
+    public OrderDTO getOrderById(long id) {
+        return new OrderDTO("user");
     }
 
     public void changeOrderStatus(long id, Status status) {
