@@ -11,11 +11,12 @@ public class OrderDTO {
     private long totalCost;
     private long totalAmount;
     private String username;
-    List<ItemDTO> items;
+    private List<ItemDTO> items;
 
     public OrderDTO(String username) {
         this.username = username;
         this.status = Status.COLLECTING;
+        this.items = new ArrayList<ItemDTO>();
     }
 
     public String toString() {
