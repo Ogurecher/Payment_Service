@@ -14,6 +14,10 @@ public class Payment {
         this.username = username;
     }
 
+    public String toString() {
+        return new String("{orderId: " + this.orderId + ", cardAuthorizationInfo: " + this.cardAuthorizationInfo + ", username: " + this.username + "}");
+    }
+
     public long getId() {
         return id;
     }

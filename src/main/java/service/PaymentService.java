@@ -6,45 +6,52 @@ import dto.UserDetailsDTO;
 import entity.Payment;
 import entity.enums.CardAuthorizationInfo;
 import entity.enums.Status;
+import util.CustomLogger;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PaymentService {
+    private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
     private PaymentDAO paymentDAO = new PaymentDAO();
     private OrderService orderService = new OrderService();
     private ItemService itemService = new ItemService();
 
     public OrderDTO performPayment(long orderId, UserDetailsDTO userDetails) {
         userDetails.getCardAuthorizationInfo();
-        System.out.println("Payment Service: performPayment initiated");
+        logger.log(Level.INFO, "performPayment initiated");
 
-        // Order order = request -> OrderService: getOrderById(orderId)
+        // Order order = request -> OrderService: getOrderById(orderId)                                     sync call
         OrderDTO orderDTO = orderService.getOrderById(orderId);
+        logger.log(Level.INFO, "Requested orderDTO by id = " + orderId);
+
         if (orderDTO == null) {
-            System.out.printf("Payment Service: no order returned from Order Service. There is no order with id: %d\n", orderId);
-            return null;
+            logger.log(Level.INFO, "No orderDTO received ");
+            return orderDTO;
+        } else {
+            logger.log(Level.INFO, "Got orderDTO " + orderDTO.toString());
         }
-        System.out.printf("Payment Service: got order from Order Service by id: %d\n", orderId);
 
         if (userDetails.getCardAuthorizationInfo() == CardAuthorizationInfo.AUTHORIZED) {
-            System.out.println("Payment Service: card authorized");
-            // request -> OrderService: changeOrderStatus(orderId, Status.PAID);
+            logger.log(Level.INFO, "Card authorized");
+            // request -> OrderService: changeOrderStatus(orderId, Status.PAID);                            async call
             orderService.changeOrderStatus(orderId, Status.PAID);
-            System.out.println("Payment Service: order status change requested: paid");
-            // request -> ItemService: changeItemAmount(order.getOrderItems());
+            logger.log(Level.INFO, "Order status change requested. New status: " + Status.PAID);
+            // request -> ItemService: changeItemAmount(order.getOrderItems());                             async call
             itemService.changeItemAmount(orderDTO.getItems());
-            System.out.println("Payment Service: item subtraction requested");
+            logger.log(Level.INFO, "Item subtraction requested");
         } else {
-            // request -> OrderService: changeOrderStatus(orderId, Status.FAILED);
+            // request -> OrderService: changeOrderStatus(orderId, Status.FAILED);                          async call
             orderService.changeOrderStatus(orderId, Status.FAILED);
-            System.out.println("Payment Service: order status change requested: failed");
-            // request -> ItemService: releaseItem(order.getOrderItems());
+            logger.log(Level.INFO, "Order status change requested. New status: " + Status.FAILED);
+            // request -> ItemService: releaseItem(order.getOrderItems());                                  async call
             itemService.releaseItems(orderDTO.getItems());
-            System.out.println("Payment Service: item release requested");
+            logger.log(Level.INFO, "Item release requested");
         }
 
-        // push payment to payment database
+        // push payment to payment database                                                                 async call
         Payment payment = new Payment(orderId, userDetails.getCardAuthorizationInfo(), orderDTO.getUsername());
         paymentDAO.save(payment);
-        System.out.printf("Payment Service: saved Payment{orderId: %d, cardAuthorizationInfo: %s, username: %s} to payment database\n", orderId,userDetails.getCardAuthorizationInfo().name(),orderDTO.getUsername());
 
         return orderDTO;
     }
