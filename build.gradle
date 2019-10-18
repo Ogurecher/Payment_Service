@@ -44,12 +44,12 @@ dependencies {
 jar {
   manifest {
     attributes(
-      'Main-Class': 'swagger.SwaggerApplication'
+      'Main-Class': 'Main'
     )
   }
 }
 
 application {
     // Define the main class for the application
-    mainClassName = 'swagger.SwaggerApplication'
+    mainClassName = 'Main'
 }

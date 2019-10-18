@@ -6,7 +6,6 @@ import dto.UserDetailsDTO;
 import entity.Payment;
 import entity.enums.CardAuthorizationInfo;
 import entity.enums.Status;
-import util.CustomLogger;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

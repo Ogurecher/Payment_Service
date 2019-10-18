@@ -1,14 +1,11 @@
 package dao;
 
 import entity.Payment;
-import util.CustomLogger;
 import util.HibernateUtil;
 import org.hibernate.Session;
-import javax.persistence.criteria.*;
-import java.util.List;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class PaymentDAO {
     private Logger logger;
