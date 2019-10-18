@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 public class HibernateUtil {
-	private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
 	private static SessionFactory sessionFactory;
 
 	private  HibernateUtil(){}
@@ -19,8 +18,7 @@ public class HibernateUtil {
 				.buildSessionFactory();
 		}
 		catch (Exception e){
-			//e.printStackTrace();
-			logger.log(Level.SEVERE, "Hibernate error: could not establish session");
+			e.printStackTrace();
 		}
 	}
 

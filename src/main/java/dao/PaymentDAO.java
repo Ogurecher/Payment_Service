@@ -11,7 +11,11 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class PaymentDAO {
-    private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
+    private Logger logger;
+
+    public PaymentDAO(Logger logger) {
+        this.logger = logger;
+    }
 
     public void save(Payment obj) {
         Session session = null;

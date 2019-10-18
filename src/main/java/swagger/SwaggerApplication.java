@@ -1,10 +1,13 @@
 package swagger;
 
 import com.google.gson.Gson;
+import dao.PaymentDAO;
 import dto.UserDetailsDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.jaxrs.config.BeanConfig;
+import service.ItemService;
+import service.OrderService;
 import service.PaymentService;
 import util.CustomLogger;
 
@@ -39,7 +42,12 @@ public class SwaggerApplication extends Application {
     }
 
     private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
-    private static PaymentService paymentService = new PaymentService();
+    private static PaymentService paymentService = new PaymentService(
+            logger,
+            new PaymentDAO(logger),
+            new OrderService(),
+            new ItemService()
+    );
 
     public static void main(String[] args) {
         CustomLogger.init();

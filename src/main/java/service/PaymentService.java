@@ -12,10 +12,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PaymentService {
-    private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
-    private PaymentDAO paymentDAO = new PaymentDAO();
-    private OrderService orderService = new OrderService();
-    private ItemService itemService = new ItemService();
+    private Logger logger;
+    private PaymentDAO paymentDAO;
+    private OrderService orderService;
+    private ItemService itemService;
+
+    public PaymentService(Logger logger, PaymentDAO paymentDAO, OrderService orderService, ItemService itemService) {
+        this.logger = logger;
+        this.paymentDAO = paymentDAO;
+        this.orderService = orderService;
+        this.itemService = itemService;
+    }
 
     public OrderDTO performPayment(long orderId, UserDetailsDTO userDetails) {
         userDetails.getCardAuthorizationInfo();
