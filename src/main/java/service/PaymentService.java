@@ -6,6 +6,7 @@ import dto.UserDetailsDTO;
 import entity.Payment;
 import entity.enums.CardAuthorizationInfo;
 import entity.enums.Status;
+import messaging.RabbitMQ;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,11 +25,10 @@ public class PaymentService {
     }
 
     public OrderDTO performPayment(long orderId, UserDetailsDTO userDetails) {
-        userDetails.getCardAuthorizationInfo();
         logger.log(Level.INFO, "performPayment initiated");
 
         // Order order = request -> OrderService: getOrderById(orderId)                                     sync call
-        OrderDTO orderDTO = orderService.getOrderById(orderId);
+        /*OrderDTO orderDTO = orderService.getOrderById(orderId);
         logger.log(Level.INFO, "Requested orderDTO by id = " + orderId);
 
         if (orderDTO == null) {
@@ -53,12 +53,19 @@ public class PaymentService {
             // request -> ItemService: releaseItem(order.getOrderItems());                                  async call
             itemService.releaseItems(orderDTO.getItems());
             logger.log(Level.INFO, "Item release requested");
+        }*/
+
+        RabbitMQ rabbitMQ = new RabbitMQ();
+        try {
+            rabbitMQ.broadcast(userDetails.getCardAuthorizationInfo(), orderId);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         // push payment to payment database                                                                 async call
-        Payment payment = new Payment(orderId, userDetails.getCardAuthorizationInfo(), orderDTO.getUsername());
+        Payment payment = new Payment(orderId, userDetails.getCardAuthorizationInfo(), userDetails.getUsername());
         paymentDAO.save(payment);
 
-        return orderDTO;
+        return new OrderDTO(orderId, userDetails.getUsername());
     }
 }
