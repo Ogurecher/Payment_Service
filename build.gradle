@@ -31,7 +31,6 @@ sourceSets {
 }
 
 dependencies {
-    	// This dependency is used by the application.
         implementation 'com.google.code.gson:gson:2.8.5'
     	implementation 'com.google.guava:guava:28.0-jre'
 	compile 'org.hibernate:hibernate-core:5.4.5.Final'

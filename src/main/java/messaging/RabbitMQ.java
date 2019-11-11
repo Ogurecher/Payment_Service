@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.MessageProperties;
 import entity.enums.CardAuthorizationInfo;
 import util.CustomLogger;
 
@@ -19,16 +20,18 @@ public class RabbitMQ {
         factory.setHost("localhost");
         try (Connection connection = factory.newConnection();
              Channel channel = connection.createChannel()) {
-            channel.exchangeDeclare(EXCHANGE_NAME, "fanout");
+            channel.exchangeDeclare(EXCHANGE_NAME, "fanout");                                           // change to direct if required
 
             JsonObject json = new JsonObject();
-            json.addProperty("type", "performPayment");
+            json.addProperty("type", "performPayment");                                        // always add type property!
             json.addProperty("cardAuthorizationInfo", cardAuthorizationInfo.toString());
             json.addProperty("orderId", orderId);
 
             String message = json.toString();
 
-            channel.basicPublish(EXCHANGE_NAME, "", null, message.getBytes("UTF-8"));
+
+
+            channel.basicPublish(EXCHANGE_NAME, "", MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes("UTF-8"));
             logger.log(Level.INFO," [Payment Service] Sent '" + message + "'");
         }
     }
