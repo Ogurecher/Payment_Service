@@ -1,6 +1,7 @@
 package dao;
 
 import entity.Payment;
+import util.CustomLogger;
 import util.HibernateUtil;
 import org.hibernate.Session;
 
@@ -8,11 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PaymentDAO {
-    private Logger logger;
-
-    public PaymentDAO(Logger logger) {
-        this.logger = logger;
-    }
+    private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
 
     public void save(Payment obj) {
         Session session = null;

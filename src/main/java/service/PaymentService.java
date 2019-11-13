@@ -6,16 +6,16 @@ import dto.UserDetailsDTO;
 import entity.Payment;
 import entity.enums.CardAuthorizationInfo;
 import messaging.RabbitMQ;
+import util.CustomLogger;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PaymentService {
-    private Logger logger;
+    private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
     private PaymentDAO paymentDAO;
 
-    public PaymentService(Logger logger, PaymentDAO paymentDAO) {
-        this.logger = logger;
+    public PaymentService(PaymentDAO paymentDAO) {
         this.paymentDAO = paymentDAO;
     }
 

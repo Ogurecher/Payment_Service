@@ -12,8 +12,7 @@ import java.util.logging.Logger;
 public class Main {
     private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
     private static PaymentService paymentService = new PaymentService(
-            logger,
-            new PaymentDAO(logger)
+            new PaymentDAO()
     );
 
     public static void main(String[] args) {
