@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 
 public class RabbitMQ {
     private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
-    private final static String EXCHANGE_NAME = "performPayment";
+    private final static String EXCHANGE_NAME = "paymentPerformed";
 
     public void broadcast(boolean paymentSuccessful, long orderId) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
@@ -23,7 +23,7 @@ public class RabbitMQ {
             channel.exchangeDeclare(EXCHANGE_NAME, "fanout");                                           // change to direct if required
 
             JsonObject json = new JsonObject();
-            json.addProperty("type", "performPayment");                                        // always add type property!
+            json.addProperty("type", "paymentPerformed");                                        // always add type property!
             json.addProperty("paymentSuccessful", Boolean.toString(paymentSuccessful));
             json.addProperty("orderId", orderId);
 
