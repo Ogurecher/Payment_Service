@@ -15,7 +15,7 @@ public class RabbitMQ {
     private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
     private final static String EXCHANGE_NAME = "performPayment";
 
-    public void broadcast(CardAuthorizationInfo cardAuthorizationInfo, long orderId) throws Exception {
+    public void broadcast(boolean paymentSuccessful, long orderId) throws Exception {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         try (Connection connection = factory.newConnection();
@@ -24,7 +24,7 @@ public class RabbitMQ {
 
             JsonObject json = new JsonObject();
             json.addProperty("type", "performPayment");                                        // always add type property!
-            json.addProperty("cardAuthorizationInfo", cardAuthorizationInfo.toString());
+            json.addProperty("paymentSuccessful", Boolean.toString(paymentSuccessful));
             json.addProperty("orderId", orderId);
 
             String message = json.toString();

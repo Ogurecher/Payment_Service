@@ -3,8 +3,6 @@ import static spark.Spark.*;
 import com.google.gson.Gson;
 import dao.PaymentDAO;
 import dto.UserDetailsDTO;
-import service.ItemService;
-import service.OrderService;
 import service.PaymentService;
 import util.CustomLogger;
 
@@ -15,9 +13,7 @@ public class Main {
     private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
     private static PaymentService paymentService = new PaymentService(
             logger,
-            new PaymentDAO(logger),
-            new OrderService(),
-            new ItemService()
+            new PaymentDAO(logger)
     );
 
     public static void main(String[] args) {
