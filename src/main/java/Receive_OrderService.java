@@ -14,7 +14,7 @@ public class Receive_OrderService {
         Channel channel = connection.createChannel();
 
         channel.exchangeDeclare(EXCHANGE_NAME, "fanout");                                           // change fanout to direct if required
-        channel.queueDeclare(QUEUE_NAME, true, false, true, null);  // once
+        channel.queueDeclare(QUEUE_NAME, true, false, false, null);  // once
         channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "");                                       // once for every exchange
 
         System.out.println(" [" + QUEUE_NAME + "] Waiting for messages");
