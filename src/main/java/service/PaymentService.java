@@ -1,5 +1,6 @@
 package service;
 
+import com.google.gson.Gson;
 import dao.PaymentDAO;
 import dto.OrderDTO;
 import dto.UserDetailsDTO;
@@ -19,7 +20,7 @@ public class PaymentService {
         this.paymentDAO = paymentDAO;
     }
 
-    public OrderDTO performPayment(long orderId, UserDetailsDTO userDetails) {
+    public String performPayment(long orderId, UserDetailsDTO userDetails) {
         logger.log(Level.INFO, "performPayment initiated");
 
         RabbitMQ rabbitMQ = new RabbitMQ();
@@ -37,6 +38,9 @@ public class PaymentService {
         Payment payment = new Payment(orderId, userDetails.getCardAuthorizationInfo(), userDetails.getUsername());
         paymentDAO.save(payment);
 
-        return new OrderDTO(orderId, userDetails.getUsername());
+        Gson gson = new Gson();
+        String json = gson.toJson(new OrderDTO(orderId, userDetails.getUsername()));
+        //return new OrderDTO(orderId, userDetails.getUsername());
+        return json;
     }
 }

@@ -9,9 +9,9 @@ public class OrderDTO {
         this.username = username;
     }
 
-    public String toString() {
+    /*public String toString() {
         return "{id: " + id + ", username: " + username + "}";
-    }
+    }*/
 
     public long getId() {
         return id;
