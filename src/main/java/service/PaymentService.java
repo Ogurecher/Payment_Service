@@ -27,7 +27,7 @@ public class PaymentService {
             if(userDetails.getCardAuthorizationInfo() == CardAuthorizationInfo.AUTHORIZED) {
                 rabbitMQ.broadcast(true, orderId);
             } else {
-                rabbitMQ.broadcast(true, orderId);
+                rabbitMQ.broadcast(false, orderId);
             }
         } catch (Exception e) {
             e.printStackTrace();
