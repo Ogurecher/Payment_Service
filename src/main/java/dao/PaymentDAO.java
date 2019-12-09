@@ -9,12 +9,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class PaymentDAO {
+    private HibernateUtil hibernateUtil;
     private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
+
+    public PaymentDAO (HibernateUtil hibernateUtil) {
+        this.hibernateUtil = hibernateUtil;
+    }
 
     public void save(Payment obj) {
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = hibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             session.save(obj);
             session.getTransaction().commit();
@@ -23,7 +28,7 @@ public class PaymentDAO {
             //e.printStackTrace();
             logger.log(Level.SEVERE, "Database: could not save payment " + obj.toString());
         } finally {
-            HibernateUtil.closeSession(session);
+            hibernateUtil.closeSession(session);
         }
     }
 }

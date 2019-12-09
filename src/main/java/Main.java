@@ -5,6 +5,7 @@ import dao.PaymentDAO;
 import dto.UserDetailsDTO;
 import service.PaymentService;
 import util.CustomLogger;
+import util.HibernateUtil;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
 public class Main {
     private final static Logger logger = Logger.getLogger(CustomLogger.class.getName());
     private static PaymentService paymentService = new PaymentService(
-            new PaymentDAO()
+            new PaymentDAO(new HibernateUtil())
     );
 
     public static void main(String[] args) {
