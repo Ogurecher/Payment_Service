@@ -22,10 +22,15 @@ public class Main {
 
         put("/api/orders/:orderId/payment", (req, res) -> {
             logger.log(Level.INFO, "Got an API call " + req.url() + " with body " + req.body());
-            return paymentService.performPayment(
-                    Long.parseLong(req.params("orderId")),
-                    new Gson().fromJson(req.body(), UserDetailsDTO.class)
-            );
+            try {
+                return paymentService.performPayment(
+                        Long.parseLong(req.params("orderId")),
+                        new Gson().fromJson(req.body(), UserDetailsDTO.class)
+                );
+            } catch (Exception e) {
+                Gson gson = new Gson();
+                return gson.toJson(e.getMessage());
+            }
         });
     }
 }
